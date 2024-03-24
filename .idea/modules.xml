@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stage3-module4-task.iml" filepath="$PROJECT_DIR$/.idea/modules/stage3-module4-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.iml" filepath="$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.main.iml" filepath="$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.test.iml" filepath="$PROJECT_DIR$/.idea/modules/module-main/stage3-module4-task.module-main.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.iml" filepath="$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.main.iml" filepath="$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.test.iml" filepath="$PROJECT_DIR$/.idea/modules/module-repository/stage3-module4-task.module-repository.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.iml" filepath="$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/module-service/stage3-module4-task.module-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.iml" filepath="$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.main.iml" filepath="$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.test.iml" filepath="$PROJECT_DIR$/.idea/modules/module-web/stage3-module4-task.module-web.test.iml" />
+    </modules>
+  </component>
+</project>

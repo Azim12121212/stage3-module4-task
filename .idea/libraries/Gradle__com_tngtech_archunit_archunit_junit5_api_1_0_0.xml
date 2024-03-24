@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tngtech.archunit:archunit-junit5-api:1.0.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.tngtech.archunit" artifactId="archunit-junit5-api" version="1.0.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tngtech.archunit/archunit-junit5-api/1.0.0/f537a0cb4156e374e436009cf7e8e07062929b32/archunit-junit5-api-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
