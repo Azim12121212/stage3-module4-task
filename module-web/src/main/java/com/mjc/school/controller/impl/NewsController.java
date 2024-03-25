@@ -46,9 +46,6 @@ public class NewsController implements NewsControllerInterface {
     @ResponseStatus(HttpStatus.OK)
     @Override
     public NewsDtoResponse update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
-        if (updateRequest.getId()>0 && updateRequest.getId()!=id) {
-            throw new NotFoundException("Resource id in path and request body does not match.");
-        }
         updateRequest.setId(id);
         return newsService.update(updateRequest);
     }
@@ -60,10 +57,10 @@ public class NewsController implements NewsControllerInterface {
         return newsService.deleteById(id);
     }
 
-    @GetMapping
+    @GetMapping(value = "/pages")
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "0") Integer pageNum,
+    public List<NewsDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                          @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                          @RequestParam(required = false, name = "sort", defaultValue = "title") String sortBy) {
         return newsService.readAll(pageNum, pageSize, sortBy);
@@ -94,7 +91,7 @@ public class NewsController implements NewsControllerInterface {
     }
 
     // Get News by title
-    @GetMapping(value = "/{title}")
+    @GetMapping(value = "/title/{title}")
     @ResponseStatus(HttpStatus.OK)
     @Override
     public List<NewsDtoResponse> getNewsByTitle(@PathVariable String title) {
@@ -102,7 +99,7 @@ public class NewsController implements NewsControllerInterface {
     }
 
     // Get News by content
-    @GetMapping(value = "/{content}")
+    @GetMapping(value = "/content/{content}")
     @ResponseStatus(HttpStatus.OK)
     @Override
     public List<NewsDtoResponse> getNewsByContent(@PathVariable String content) {

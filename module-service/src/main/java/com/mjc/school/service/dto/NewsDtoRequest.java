@@ -15,7 +15,6 @@ public class NewsDtoRequest {
     private String content;
     private Long authorId;
     private List<Long> tagIdList;
-    private List<Long> commentIdList;
 
     public NewsDtoRequest(String title, String content, Long authorId) {
         this.title = title;
@@ -35,13 +34,5 @@ public class NewsDtoRequest {
         this.title = title;
         this.content = content;
         this.authorId = authorId;
-    }
-
-    public NewsDtoRequest(Long id, String title, String content, Long authorId, List<Long> tagIdList) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.authorId = authorId;
-        this.tagIdList = tagIdList;
     }
 }

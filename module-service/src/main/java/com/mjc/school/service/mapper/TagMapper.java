@@ -14,12 +14,10 @@ public interface TagMapper {
     @Mapping(target = "newsModelSet", ignore = true)
     TagModel tagDtoToTagModel(TagDtoRequest tagDto);
 
+    @Mapping(target = "newsDtoResponseSet", source = "newsModelSet")
     TagDtoResponse tagModelToTagDto(TagModel tagModel);
 
     List<TagDtoResponse> tagModelListToTagDtoList(List<TagModel> tagModelList);
 
     Set<TagDtoResponse> tagModelSetToTagDtoSet(Set<TagModel> tagModelSet);
-
-    @Mapping(target = "id", source = "tagId")
-    TagModel tagIdToTagModel(Long tagId);
 }

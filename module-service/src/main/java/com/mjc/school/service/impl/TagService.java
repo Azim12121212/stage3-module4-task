@@ -77,7 +77,11 @@ public class TagService implements TagServiceInterface {
 
     @Override
     public List<TagDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        return mapper.tagModelListToTagDtoList(tagRepository.readAll(pageNum, pageSize, sortBy));
+        if (sortBy.equals("id") || sortBy.equals("name")) {
+            return mapper.tagModelListToTagDtoList(tagRepository.readAll(pageNum, pageSize, sortBy));
+        } else {
+            throw new NotFoundException("sort param value '" + sortBy + "' is incorrect!");
+        }
     }
 
     // Get News by tag id

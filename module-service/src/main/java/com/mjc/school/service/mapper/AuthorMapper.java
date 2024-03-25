@@ -15,6 +15,7 @@ public interface AuthorMapper {
     @Mapping(target = "newsModelList", ignore = true)
     AuthorModel authorDtoToAuthorModel(AuthorDtoRequest authorDto);
 
+    @Mapping(target = "newsDtoResponseList", source = "newsModelList")
     AuthorDtoResponse authorModelToAuthorDto(AuthorModel authorModel);
 
     List<AuthorDtoResponse> authorModelListToAuthorDtoList(List<AuthorModel> authorModelList);

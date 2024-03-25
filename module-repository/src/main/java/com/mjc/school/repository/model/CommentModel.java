@@ -28,7 +28,7 @@ public class CommentModel implements BaseEntity<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime lastUpdateDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "news_id", nullable = false)
     private NewsModel newsModel;
 

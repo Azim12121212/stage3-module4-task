@@ -20,7 +20,7 @@ public class CommentRepository implements CommentRepositoryInterface {
 
     @Override
     public List<CommentModel> readAll() {
-        return entityManager.createQuery("SELECT c FROM CommentModel c", CommentModel.class).getResultList();
+        return entityManager.createQuery("SELECT c FROM CommentModel c LEFT JOIN c.newsModel n", CommentModel.class).getResultList();
     }
 
     @Override
@@ -66,10 +66,10 @@ public class CommentRepository implements CommentRepositoryInterface {
 
     @Override
     public List<CommentModel> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        String jpql = "SELECT c FROM CommentModel c";
-        if (sortBy!=null) {
-            jpql += " ORDER BY c." + sortBy;
+        if (sortBy.equals("newsId")) {
+            sortBy="newsModel";
         }
+        String jpql = "SELECT c FROM CommentModel c ORDER BY c." + sortBy;
 
         Query query = entityManager.createQuery(jpql);
         if (pageNum!=null && pageSize!=null) {

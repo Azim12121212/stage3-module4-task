@@ -1,6 +1,8 @@
 package com.mjc.school.service.mapper;
 
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
+import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-23T18:48:01+0600",
+    date = "2024-03-26T00:45:01+0600",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.2.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
@@ -40,6 +42,7 @@ public class TagMapperImpl implements TagMapper {
 
         TagDtoResponse tagDtoResponse = new TagDtoResponse();
 
+        tagDtoResponse.setNewsDtoResponseSet( newsModelSetToNewsDtoResponseSet( tagModel.getNewsModelSet() ) );
         tagDtoResponse.setId( tagModel.getId() );
         tagDtoResponse.setName( tagModel.getName() );
 
@@ -74,16 +77,32 @@ public class TagMapperImpl implements TagMapper {
         return set;
     }
 
-    @Override
-    public TagModel tagIdToTagModel(Long tagId) {
-        if ( tagId == null ) {
+    protected NewsDtoResponse newsModelToNewsDtoResponse(NewsModel newsModel) {
+        if ( newsModel == null ) {
             return null;
         }
 
-        TagModel tagModel = new TagModel();
+        NewsDtoResponse newsDtoResponse = new NewsDtoResponse();
 
-        tagModel.setId( tagId );
+        newsDtoResponse.setId( newsModel.getId() );
+        newsDtoResponse.setTitle( newsModel.getTitle() );
+        newsDtoResponse.setContent( newsModel.getContent() );
+        newsDtoResponse.setCreateDate( newsModel.getCreateDate() );
+        newsDtoResponse.setLastUpdateDate( newsModel.getLastUpdateDate() );
 
-        return tagModel;
+        return newsDtoResponse;
+    }
+
+    protected Set<NewsDtoResponse> newsModelSetToNewsDtoResponseSet(Set<NewsModel> set) {
+        if ( set == null ) {
+            return null;
+        }
+
+        Set<NewsDtoResponse> set1 = new HashSet<NewsDtoResponse>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( NewsModel newsModel : set ) {
+            set1.add( newsModelToNewsDtoResponse( newsModel ) );
+        }
+
+        return set1;
     }
 }

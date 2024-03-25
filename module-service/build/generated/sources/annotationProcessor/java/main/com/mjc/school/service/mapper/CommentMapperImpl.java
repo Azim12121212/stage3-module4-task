@@ -4,6 +4,7 @@ import com.mjc.school.repository.model.CommentModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.dto.CommentDtoRequest;
 import com.mjc.school.service.dto.CommentDtoResponse;
+import com.mjc.school.service.dto.NewsDtoResponse;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-23T18:48:01+0600",
+    date = "2024-03-26T00:45:02+0600",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.2.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
@@ -40,6 +41,7 @@ public class CommentMapperImpl implements CommentMapper {
 
         CommentDtoResponse commentDtoResponse = new CommentDtoResponse();
 
+        commentDtoResponse.setNewsDtoResponse( newsModelToNewsDtoResponse( commentModel.getNewsModel() ) );
         commentDtoResponse.setId( commentModel.getId() );
         commentDtoResponse.setContent( commentModel.getContent() );
         commentDtoResponse.setCreateDate( commentModel.getCreateDate() );
@@ -57,20 +59,6 @@ public class CommentMapperImpl implements CommentMapper {
         List<CommentDtoResponse> list = new ArrayList<CommentDtoResponse>( commentModelList.size() );
         for ( CommentModel commentModel : commentModelList ) {
             list.add( commentModelToCommentDto( commentModel ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<CommentModel> commentIdListToCommentModelList(List<Long> commentIdList) {
-        if ( commentIdList == null ) {
-            return null;
-        }
-
-        List<CommentModel> list = new ArrayList<CommentModel>( commentIdList.size() );
-        for ( Long long1 : commentIdList ) {
-            list.add( commentIdToCommentModel( long1 ) );
         }
 
         return list;
@@ -100,5 +88,21 @@ public class CommentMapperImpl implements CommentMapper {
         newsModel.setId( newsId );
 
         return newsModel;
+    }
+
+    protected NewsDtoResponse newsModelToNewsDtoResponse(NewsModel newsModel) {
+        if ( newsModel == null ) {
+            return null;
+        }
+
+        NewsDtoResponse newsDtoResponse = new NewsDtoResponse();
+
+        newsDtoResponse.setId( newsModel.getId() );
+        newsDtoResponse.setTitle( newsModel.getTitle() );
+        newsDtoResponse.setContent( newsModel.getContent() );
+        newsDtoResponse.setCreateDate( newsModel.getCreateDate() );
+        newsDtoResponse.setLastUpdateDate( newsModel.getLastUpdateDate() );
+
+        return newsDtoResponse;
     }
 }

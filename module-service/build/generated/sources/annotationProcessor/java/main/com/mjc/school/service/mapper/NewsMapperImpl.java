@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-23T22:45:49+0600",
+    date = "2024-03-26T00:56:41+0600",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.2.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
@@ -40,8 +40,7 @@ public class NewsMapperImpl extends NewsMapper {
         newsModel.setContent( newsDto.getContent() );
 
         newsModel.setAuthorModel( authorRepository.readById(newsDto.getAuthorId()).get() );
-        newsModel.setTagModelSet( tagModelListToTagModelSet(newsDto.getTagIdList().stream().map(tagId -> tagRepository.readById(tagId).get()).toList()) );
-        newsModel.setCommentModelList( newsDto.getCommentIdList().stream().map(commentId -> commentRepository.readById(commentId).get()).toList() );
+        newsModel.setTagModelSet( newsDto.getTagIdList()!=null ? tagModelListToTagModelSet(newsDto.getTagIdList().stream().map(tagId -> tagRepository.readById(tagId).get()).toList()) : null );
 
         return newsModel;
     }

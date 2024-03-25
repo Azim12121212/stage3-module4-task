@@ -80,12 +80,15 @@ public class NewsService implements NewsServiceInterface {
     @Transactional
     @Override
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
+        boolean equal = false;
         for (AuthorModel authorModel: authorRepository.readAll()) {
-            if (Objects.equals(updateRequest.getAuthorId(), authorModel.getId())
-                    && readById(updateRequest.getId())!=null) {
-                NewsModel newsModel = newsRepository.update(mapper.newsDtoToNewsModel(updateRequest));
-                return mapper.newsModelToNewsDto(newsModel);
+            if (Objects.equals(updateRequest.getAuthorId(), authorModel.getId())) {
+                equal = true;
             }
+        }
+        if (equal && readById(updateRequest.getId())!=null) {
+            NewsModel newsModel = newsRepository.update(mapper.newsDtoToNewsModel(updateRequest));
+            return mapper.newsModelToNewsDto(newsModel);
         }
         return null;
     }

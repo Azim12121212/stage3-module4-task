@@ -61,10 +61,7 @@ public class TagRepository implements TagRepositoryInterface {
 
     @Override
     public List<TagModel> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        String jpql = "SELECT t FROM TagModel t";
-        if (sortBy!=null) {
-            jpql += " ORDER BY t." + sortBy;
-        }
+        String jpql = "SELECT t FROM TagModel t ORDER BY t." + sortBy;
 
         Query query = entityManager.createQuery(jpql);
         if (pageNum!=null && pageSize!=null) {
@@ -78,8 +75,12 @@ public class TagRepository implements TagRepositoryInterface {
     // Get News by tag id
     @Override
     public List<NewsModel> getNewsByTagId(Long id) {
-        Set<NewsModel> newsModelSet = entityManager.find(TagModel.class, id).getNewsModelSet();
-        List<NewsModel> newsModelList = new ArrayList<>(newsModelSet);
+        String jpql = "SELECT n FROM NewsModel n JOIN FETCH n.tagModelSet t WHERE t.id = :tagId";
+
+        List<NewsModel> newsModelList = entityManager.createQuery(jpql)
+                .setParameter("tagId", id)
+                .getResultList();
+
         return newsModelList;
     }
 

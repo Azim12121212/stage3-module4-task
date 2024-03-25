@@ -1,6 +1,5 @@
 package com.mjc.school.repository.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,12 +39,12 @@ public class NewsModel implements BaseEntity<Long> {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "news_tag",
-            joinColumns = @JoinColumn(name = "news_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+            joinColumns = @JoinColumn(name = "news_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private Set<TagModel> tagModelSet = new HashSet<>();
 
     @OneToMany(mappedBy = "newsModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentModel> commentModelList;
+    private List<CommentModel> commentModelList = new ArrayList<>();
 
     public NewsModel(String title, String content, AuthorModel authorModel) {
         this.title = title;

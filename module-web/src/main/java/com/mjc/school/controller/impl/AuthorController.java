@@ -47,9 +47,6 @@ public class AuthorController implements AuthorControllerInterface {
     @ResponseStatus(HttpStatus.OK)
     @Override
     public AuthorDtoResponse update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
-        if (updateRequest.getId()>0 && updateRequest.getId()!=id) {
-            throw new NotFoundException("Resource id in path and request body does not match.");
-        }
         updateRequest.setId(id);
         return authorService.update(updateRequest);
     }
@@ -64,7 +61,7 @@ public class AuthorController implements AuthorControllerInterface {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<AuthorDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "0") Integer pageNum,
+    public List<AuthorDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                            @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                            @RequestParam(required = false, name = "sort", defaultValue = "name") String sortBy) {
         return authorService.readAll(pageNum, pageSize, sortBy);

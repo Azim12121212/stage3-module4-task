@@ -4,7 +4,6 @@ import com.mjc.school.controller.CommentControllerInterface;
 import com.mjc.school.service.CommentServiceInterface;
 import com.mjc.school.service.dto.CommentDtoRequest;
 import com.mjc.school.service.dto.CommentDtoResponse;
-import com.mjc.school.service.errorsexceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +45,6 @@ public class CommentController implements CommentControllerInterface {
     @ResponseStatus(HttpStatus.OK)
     @Override
     public CommentDtoResponse update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
-        if (updateRequest.getId()>0 && updateRequest.getId()!=id) {
-            throw new NotFoundException("Resource id in path and request body does not match.");
-        }
         updateRequest.setId(id);
         return commentService.update(updateRequest);
     }
@@ -63,7 +59,7 @@ public class CommentController implements CommentControllerInterface {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<CommentDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "0") Integer pageNum,
+    public List<CommentDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                             @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                             @RequestParam(required = false, name = "sort", defaultValue = "id") String sortBy) {
         return commentService.readAll(pageNum, pageSize, sortBy);

@@ -21,7 +21,8 @@ public class AuthorRepository implements AuthorRepositoryInterface {
 
     @Override
     public List<AuthorModel> readAll() {
-        return entityManager.createQuery("SELECT a FROM AuthorModel a", AuthorModel.class).getResultList();
+        return entityManager.createQuery("SELECT a FROM AuthorModel a LEFT JOIN a.newsModelList n",
+                AuthorModel.class).getResultList();
     }
 
     @Override

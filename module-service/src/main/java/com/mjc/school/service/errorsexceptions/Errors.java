@@ -8,7 +8,7 @@ public enum Errors {
     ERROR_NEWS_TITLE_LENGTH("0021", "News title can not be less than 5 and more than 30 symbols. News title is: "),
     ERROR_NEWS_CONTENT_LENGTH("0022", "News content can not be less than 5 and more than 255 symbols. News content is: "),
     ERROR_AUTHOR_ID_FORMAT("0031", "Author Id should be number"),
-    ERROR_AUTHOR_ID_VALUE("0032", "Author id can not be null or less than 1. News id is: "),
+    ERROR_AUTHOR_ID_VALUE("0032", "Author id can not be null or less than 1. Author id is: "),
     ERROR_AUTHOR_ID_NOT_EXIST("0033", "Author with id {id} does not exist."),
     ERROR_AUTHOR_NAME_LENGTH("0041", "Author name can not be less than 3 and more than 15 symbols. Author name is: "),
     ERROR_AUTHOR_NAME_NOT_EXIST("0042", "News with author name {id} does not exist."),

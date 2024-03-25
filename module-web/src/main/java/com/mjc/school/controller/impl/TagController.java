@@ -47,9 +47,6 @@ public class TagController implements TagControllerInterface {
     @ResponseStatus(HttpStatus.OK)
     @Override
     public TagDtoResponse update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
-        if (updateRequest.getId()>0 && updateRequest.getId()!=id) {
-            throw new NotFoundException("Resource id in path and request body does not match.");
-        }
         updateRequest.setId(id);
         return tagService.update(updateRequest);
     }
@@ -64,14 +61,14 @@ public class TagController implements TagControllerInterface {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<TagDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "0") Integer pageNum,
+    public List<TagDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                         @RequestParam(required = false, name = "sort", defaultValue = "name") String sortBy) {
         return tagService.readAll(pageNum, pageSize, sortBy);
     }
 
     // Get News by tag id
-    @GetMapping(value = "/{id:\\d+}/news")
+    @GetMapping(value = "/byid/{id:\\d+}/news")
     @ResponseStatus(HttpStatus.OK)
     @Override
     public List<NewsDtoResponse> getNewsByTagId(@PathVariable Long id) {
@@ -79,7 +76,7 @@ public class TagController implements TagControllerInterface {
     }
 
     // Get News by tag name
-    @GetMapping(value = "/{name}/news")
+    @GetMapping(value = "/byname/{name}/news")
     @ResponseStatus(HttpStatus.OK)
     @Override
     public List<NewsDtoResponse> getNewsByTagName(@PathVariable String name) {

@@ -16,15 +16,14 @@ public interface CommentMapper {
     @Mapping(target = "newsModel", source = "newsId")
     CommentModel commentDtoToCommentModel(CommentDtoRequest commentDto);
 
+    @Mapping(target = "newsDtoResponse", source = "newsModel")
     CommentDtoResponse commentModelToCommentDto(CommentModel commentModel);
 
     List<CommentDtoResponse> commentModelListToCommentDtoList(List<CommentModel> commentModelList);
-
-    List<CommentModel> commentIdListToCommentModelList(List<Long> commentIdList);
 
     @Mapping(target = "id", source = "commentId")
     CommentModel commentIdToCommentModel(Long commentId);
 
     @Mapping(target = "id", source = "newsId")
-    public abstract NewsModel newsIdToNewsModel(Long newsId);
+    NewsModel newsIdToNewsModel(Long newsId);
 }

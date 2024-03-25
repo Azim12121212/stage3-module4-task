@@ -21,13 +21,11 @@ public abstract class NewsMapper {
     @Autowired
     protected CommentRepositoryInterface commentRepository;
 
-    //default abstract void Listds();
-
     @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "authorModel", expression = "java(authorRepository.readById(newsDto.getAuthorId()).get())")
-    @Mapping(target = "tagModelSet", expression = "java(tagModelListToTagModelSet(newsDto.getTagIdList().stream().map(tagId -> tagRepository.readById(tagId).get()).toList()))")
-    @Mapping(target = "commentModelList", expression = "java(newsDto.getCommentIdList().stream().map(commentId -> commentRepository.readById(commentId).get()).toList())")
+    @Mapping(target = "tagModelSet", expression = "java(newsDto.getTagIdList()!=null ? tagModelListToTagModelSet(newsDto.getTagIdList().stream().map(tagId -> tagRepository.readById(tagId).get()).toList()) : null)")
+    @Mapping(target = "commentModelList", ignore = true)
     public abstract NewsModel newsDtoToNewsModel(NewsDtoRequest newsDto);
 
     @Mapping(target = "authorDtoResponse", source = "authorModel")

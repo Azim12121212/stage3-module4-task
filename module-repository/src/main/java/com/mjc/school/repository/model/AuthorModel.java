@@ -30,7 +30,7 @@ public class AuthorModel implements BaseEntity<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime lastUpdateDate;
 
-    @OneToMany(mappedBy = "authorModel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "authorModel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<NewsModel> newsModelList = new ArrayList<>();
 
     public AuthorModel(String name) {
