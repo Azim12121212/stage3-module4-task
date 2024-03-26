@@ -77,18 +77,27 @@ public class AuthorService implements AuthorServiceInterface {
 
     @Override
     public List<AuthorDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        return mapper.authorModelListToAuthorDtoList(authorRepository.readAll(pageNum, pageSize, sortBy));
+        if (sortBy.equals("id") || sortBy.equals("name")) {
+            return mapper.authorModelListToAuthorDtoList(authorRepository.readAll(pageNum, pageSize, sortBy));
+        } else {
+            throw new NotFoundException("sort param value '" + sortBy + "' is incorrect!");
+        }
     }
 
     // Get News by author name
     @Override
     public List<NewsDtoResponse> getNewsByAuthorName(String name) {
+        List<NewsModel> newsModelList = null;
+
         try {
-            List<NewsModel> newsModelList = authorRepository.getNewsByAuthorName(name);
-            return newsMapper.newsModelListToNewsDtoList(newsModelList);
+            newsModelList = authorRepository.getNewsByAuthorName(name);
         } catch (Exception e) {
-            Errors.ERROR_AUTHOR_NAME_NOT_EXIST.getErrorData(name, true);
         }
-        return null;
+
+        if (newsModelList!=null && !newsModelList.isEmpty()) {
+            return newsMapper.newsModelListToNewsDtoList(newsModelList);
+        } else {
+            throw new NotFoundException(Errors.ERROR_AUTHOR_NAME_NOT_EXIST.getErrorData(name, true));
+        }
     }
 }

@@ -68,10 +68,7 @@ public class AuthorRepository implements AuthorRepositoryInterface {
 
     @Override
     public List<AuthorModel> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        String jpql = "SELECT a FROM AuthorModel a";
-        if (sortBy!=null) {
-            jpql += " ORDER BY a." + sortBy;
-        }
+        String jpql = "SELECT a FROM AuthorModel a ORDER BY a." + sortBy;
 
         Query query = entityManager.createQuery(jpql);
         if (pageNum!=null && pageSize!=null) {

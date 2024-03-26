@@ -87,17 +87,11 @@ public class TagRepository implements TagRepositoryInterface {
     // Get News by tag name
     @Override
     public List<NewsModel> getNewsByTagName(String name) {
-        Query query = entityManager.createQuery("SELECT t FROM TagModel t WHERE t.name LIKE :name")
-                .setParameter("name", "%" + name + "%");
+        String jpql = "SELECT n FROM NewsModel n JOIN FETCH n.tagModelSet t WHERE t.name LIKE :tagName";
 
-        List<TagModel> tagModelList = query.getResultList();
-
-        Set<NewsModel> newsModelSet = new HashSet<>();
-        for (NewsModel newsModel: tagModelList.iterator().next().getNewsModelSet()) {
-            newsModelSet.add(newsModel);
-        }
-
-        List<NewsModel> newsModelList = new ArrayList<>(newsModelSet);
+        List<NewsModel> newsModelList = entityManager.createQuery(jpql)
+                .setParameter("tagName", "%"+name+"%")
+                .getResultList();
 
         return newsModelList;
     }

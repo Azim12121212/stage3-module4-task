@@ -106,7 +106,12 @@ public class NewsService implements NewsServiceInterface {
 
     @Override
     public List<NewsDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        return mapper.newsModelListToNewsDtoList(newsRepository.readAll(pageNum, pageSize, sortBy));
+        if (sortBy.equals("id") || sortBy.equals("title") ||
+                sortBy.equals("content") || sortBy.equals("authorId")) {
+            return mapper.newsModelListToNewsDtoList(newsRepository.readAll(pageNum, pageSize, sortBy));
+        } else {
+            throw new NotFoundException("sort param value '" + sortBy + "' is incorrect!");
+        }
     }
 
     // Get Author by news id – return author by provided news id.
@@ -126,7 +131,11 @@ public class NewsService implements NewsServiceInterface {
     public Set<TagDtoResponse> getTagsByNewsId(Long newsId) {
         if (readById(newsId)!=null) {
             Set<TagModel> tagModelSet = newsRepository.getTagsByNewsId(newsId);
-            return tagMapper.tagModelSetToTagDtoSet(tagModelSet);
+            if (tagModelSet!=null && !tagModelSet.isEmpty()) {
+                return tagMapper.tagModelSetToTagDtoSet(tagModelSet);
+            } else {
+                throw new NotFoundException(Errors.ERROR_TAG_NAME_NOT_EXIST.getErrorData(String.valueOf(newsId), true));
+            }
         }
         return null;
     }
@@ -137,7 +146,11 @@ public class NewsService implements NewsServiceInterface {
     public List<CommentDtoResponse> getCommentsByNewsId(Long newsId) {
         if (readById(newsId)!=null) {
             List<CommentModel> commentModelList = newsRepository.getCommentsByNewsId(newsId);
-            return commentMapper.commentModelListToCommentDtoList(commentModelList);
+            if (commentModelList!=null && !commentModelList.isEmpty()) {
+                return commentMapper.commentModelListToCommentDtoList(commentModelList);
+            } else {
+                throw new NotFoundException(Errors.ERROR_COMMENT_BY_NEWS_ID.getErrorData(String.valueOf(newsId), true));
+            }
         }
         return null;
     }
@@ -146,13 +159,21 @@ public class NewsService implements NewsServiceInterface {
     @Override
     public List<NewsDtoResponse> getNewsByTitle(String title) {
         List<NewsModel> newsModelList = newsRepository.getNewsByTitle(title);
-        return mapper.newsModelListToNewsDtoList(newsModelList);
+        if (newsModelList!=null && !newsModelList.isEmpty()) {
+            return mapper.newsModelListToNewsDtoList(newsModelList);
+        } else {
+            throw new NotFoundException(Errors.ERROR_NEWS_TITLE_NOT_EXIST.getErrorData(title, true));
+        }
     }
 
     // Get News by content
     @Override
     public List<NewsDtoResponse> getNewsByContent(String content) {
         List<NewsModel> newsModelList = newsRepository.getNewsByContent(content);
-        return mapper.newsModelListToNewsDtoList(newsModelList);
+        if (newsModelList!=null && !newsModelList.isEmpty()) {
+            return mapper.newsModelListToNewsDtoList(newsModelList);
+        } else {
+            throw new NotFoundException(Errors.ERROR_NEWS_CONTENT_NOT_EXIST.getErrorData(content, true));
+        }
     }
 }

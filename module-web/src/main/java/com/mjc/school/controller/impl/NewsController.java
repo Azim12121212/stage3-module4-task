@@ -87,7 +87,7 @@ public class NewsController implements NewsControllerInterface {
     @ResponseStatus(HttpStatus.OK)
     @Override
     public List<CommentDtoResponse> getCommentsByNewsId(@PathVariable("id") Long newsId) {
-        return null;
+        return newsService.getCommentsByNewsId(newsId);
     }
 
     // Get News by title

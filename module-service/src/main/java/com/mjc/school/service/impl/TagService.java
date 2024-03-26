@@ -98,12 +98,11 @@ public class TagService implements TagServiceInterface {
     // Get News by tag name
     @Override
     public List<NewsDtoResponse> getNewsByTagName(String name) {
-        try {
-            List<NewsModel> newsModelList = tagRepository.getNewsByTagName(name);
+        List<NewsModel> newsModelList = tagRepository.getNewsByTagName(name);
+        if (newsModelList!=null && !newsModelList.isEmpty()) {
             return newsMapper.newsModelListToNewsDtoList(newsModelList);
-        } catch (Exception e) {
-            Errors.ERROR_TAG_NAME_NOT_EXIST.getErrorData(name, true);
+        } else {
+            throw new NotFoundException(Errors.ERROR_TAG_NAME_NOT_EXIST.getErrorData(name, true));
         }
-        return null;
     }
 }

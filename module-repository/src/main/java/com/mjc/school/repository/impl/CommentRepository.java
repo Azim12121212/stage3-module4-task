@@ -45,6 +45,8 @@ public class CommentRepository implements CommentRepositoryInterface {
             commentModel = entityManager.find(CommentModel.class, entity.getId());
             commentModel.setContent(entity.getContent());
             commentModel.setLastUpdateDate(dateTime);
+            commentModel.setNewsModel(entity.getNewsModel());
+
             entityManager.merge(commentModel);
         }
         return commentModel;

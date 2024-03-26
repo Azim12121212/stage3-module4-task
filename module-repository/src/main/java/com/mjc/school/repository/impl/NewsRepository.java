@@ -54,6 +54,8 @@ public class NewsRepository implements NewsRepositoryInterface {
             newsModel.setContent(entity.getContent());
             newsModel.setLastUpdateDate(dateTime);
             newsModel.setAuthorModel(entity.getAuthorModel());
+            newsModel.setTagModelSet(entity.getTagModelSet());
+
             entityManager.merge(newsModel);
         }
         return newsModel;
@@ -75,10 +77,11 @@ public class NewsRepository implements NewsRepositoryInterface {
 
     @Override
     public List<NewsModel> readAll(Integer pageNum, Integer pageSize, String sortBy) {
-        String jpql = "SELECT n FROM NewsModel n";
-        if (sortBy!=null) {
-            jpql += " ORDER BY n." + sortBy;
+        if (sortBy.equals("authorId")) {
+            sortBy="authorModel";
         }
+
+        String jpql = "SELECT n FROM NewsModel n ORDER BY n." + sortBy;
 
         Query query = entityManager.createQuery(jpql);
         if (pageNum!=null && pageSize!=null) {
