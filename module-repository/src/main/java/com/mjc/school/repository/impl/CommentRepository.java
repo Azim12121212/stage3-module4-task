@@ -63,7 +63,15 @@ public class CommentRepository implements CommentRepositoryInterface {
 
     @Override
     public boolean existById(Long id) {
-        return entityManager.getReference(CommentModel.class, id)!=null;
+        return entityManager.find(CommentModel.class, id)!=null;
+    }
+
+    @Override
+    public CommentModel partialUpdate(Long id, CommentModel entity) {
+        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().format(MY_FORMAT));
+        entity.setLastUpdateDate(dateTime);
+        entityManager.merge(entity);
+        return entity;
     }
 
     @Override

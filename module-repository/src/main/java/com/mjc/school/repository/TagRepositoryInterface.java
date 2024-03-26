@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TagRepositoryInterface extends BaseRepository<TagModel, Long> {
 
+    TagModel partialUpdate(Long id, TagModel entity);
+
     List<TagModel> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
     List<NewsModel> getNewsByTagId(Long id);

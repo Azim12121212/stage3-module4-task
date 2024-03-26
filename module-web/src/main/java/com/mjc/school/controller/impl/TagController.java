@@ -5,7 +5,6 @@ import com.mjc.school.service.TagServiceInterface;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
-import com.mjc.school.service.errorsexceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +55,13 @@ public class TagController implements TagControllerInterface {
     @Override
     public boolean deleteById(@PathVariable Long id) {
         return tagService.deleteById(id);
+    }
+
+    @PatchMapping(value = "/partial-update/{id:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    @Override
+    public TagDtoResponse partialUpdate(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+        return tagService.partialUpdate(id, updateRequest);
     }
 
     @GetMapping

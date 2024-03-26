@@ -7,6 +7,8 @@ import java.util.Set;
 
 public interface NewsServiceInterface extends BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
 
+    NewsDtoResponse partialUpdate(Long id, NewsDtoRequest newsDtoRequest);
+
     List<NewsDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
     AuthorDtoResponse getAuthorByNewsId(Long newsId);

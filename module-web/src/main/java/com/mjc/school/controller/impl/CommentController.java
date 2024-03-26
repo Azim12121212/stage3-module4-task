@@ -56,6 +56,13 @@ public class CommentController implements CommentControllerInterface {
         return commentService.deleteById(id);
     }
 
+    @PatchMapping(value = "/partial-update/{id:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    @Override
+    public CommentDtoResponse partialUpdate(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+        return commentService.partialUpdate(id, updateRequest);
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override

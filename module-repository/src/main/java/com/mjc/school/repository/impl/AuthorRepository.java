@@ -21,7 +21,7 @@ public class AuthorRepository implements AuthorRepositoryInterface {
 
     @Override
     public List<AuthorModel> readAll() {
-        return entityManager.createQuery("SELECT a FROM AuthorModel a LEFT JOIN a.newsModelList n",
+        return entityManager.createQuery("SELECT a FROM AuthorModel a",
                 AuthorModel.class).getResultList();
     }
 
@@ -63,7 +63,15 @@ public class AuthorRepository implements AuthorRepositoryInterface {
 
     @Override
     public boolean existById(Long id) {
-        return entityManager.getReference(AuthorModel.class, id)!=null;
+        return entityManager.find(AuthorModel.class, id)!=null;
+    }
+
+    @Override
+    public AuthorModel partialUpdate(Long id, AuthorModel entity) {
+        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().format(MY_FORMAT));
+        entity.setLastUpdateDate(dateTime);
+        entityManager.merge(entity);
+        return entity;
     }
 
     @Override

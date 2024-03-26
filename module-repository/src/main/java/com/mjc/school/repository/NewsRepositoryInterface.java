@@ -10,6 +10,8 @@ import java.util.Set;
 
 public interface NewsRepositoryInterface extends BaseRepository<NewsModel, Long> {
 
+    NewsModel partialUpdate(Long id, NewsModel entity);
+
     List<NewsModel> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
     AuthorModel getAuthorByNewsId(Long newsId);

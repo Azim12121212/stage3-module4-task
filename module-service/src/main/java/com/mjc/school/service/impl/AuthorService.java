@@ -13,23 +13,28 @@ import com.mjc.school.service.errorsexceptions.Errors;
 import com.mjc.school.service.errorsexceptions.NotFoundException;
 import com.mjc.school.service.mapper.AuthorMapper;
 import com.mjc.school.service.mapper.NewsMapper;
+import com.mjc.school.service.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService implements AuthorServiceInterface {
     private final AuthorRepositoryInterface authorRepository;
     private final AuthorMapper mapper;
     private final NewsMapper newsMapper;
+    private final Validator validator;
 
     @Autowired
-    public AuthorService(AuthorRepositoryInterface authorRepository, AuthorMapper mapper, NewsMapper newsMapper) {
+    public AuthorService(AuthorRepositoryInterface authorRepository,
+                         AuthorMapper mapper, NewsMapper newsMapper, Validator validator) {
         this.authorRepository = authorRepository;
         this.mapper = mapper;
         this.newsMapper = newsMapper;
+        this.validator = validator;
     }
 
     @Override
@@ -72,6 +77,24 @@ public class AuthorService implements AuthorServiceInterface {
             return authorRepository.deleteById(id);
         } else {
             return false;
+        }
+    }
+
+    @Transactional
+    @Override
+    public AuthorDtoResponse partialUpdate(Long id, AuthorDtoRequest updateRequest) {
+        validator.validateAuthorId(id);
+        Optional<AuthorModel> existingAuthorModel = authorRepository.readById(id);
+
+        if (existingAuthorModel.isPresent()) {
+            if (updateRequest.getName()!=null) {
+                validator.validateAuthorName(updateRequest.getName());
+                existingAuthorModel.get().setName(updateRequest.getName());
+            }
+            AuthorModel authorModel = authorRepository.partialUpdate(id, existingAuthorModel.get());
+            return mapper.authorModelToAuthorDto(authorModel);
+        } else {
+            throw new NotFoundException(Errors.ERROR_AUTHOR_ID_NOT_EXIST.getErrorData(String.valueOf(id), true));
         }
     }
 

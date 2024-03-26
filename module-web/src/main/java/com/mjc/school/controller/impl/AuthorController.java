@@ -5,7 +5,6 @@ import com.mjc.school.service.AuthorServiceInterface;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoResponse;
-import com.mjc.school.service.errorsexceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +55,13 @@ public class AuthorController implements AuthorControllerInterface {
     @Override
     public boolean deleteById(@PathVariable Long id) {
         return authorService.deleteById(id);
+    }
+
+    @PatchMapping(value = "/partial-update/{id:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    @Override
+    public AuthorDtoResponse partialUpdate(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
+        return authorService.partialUpdate(id, updateRequest);
     }
 
     @GetMapping

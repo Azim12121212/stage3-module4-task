@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface CommentControllerInterface extends BaseController<CommentDtoRequest, CommentDtoResponse, Long> {
 
+    CommentDtoResponse partialUpdate(Long id, CommentDtoRequest updateRequest);
+
     List<CommentDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy);
 }

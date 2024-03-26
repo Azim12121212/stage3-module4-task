@@ -19,4 +19,7 @@ public interface AuthorMapper {
     AuthorDtoResponse authorModelToAuthorDto(AuthorModel authorModel);
 
     List<AuthorDtoResponse> authorModelListToAuthorDtoList(List<AuthorModel> authorModelList);
+
+    @Mapping(target = "id", source = "authorId")
+    AuthorModel authorIdToAuthorModel(Long authorId);
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AuthorServiceInterface extends BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
 
+    AuthorDtoResponse partialUpdate(Long id, AuthorDtoRequest updateRequest);
+
     List<AuthorDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
     List<NewsDtoResponse> getNewsByAuthorName(String name);

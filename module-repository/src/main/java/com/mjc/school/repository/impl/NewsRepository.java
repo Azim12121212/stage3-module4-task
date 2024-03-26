@@ -72,7 +72,15 @@ public class NewsRepository implements NewsRepositoryInterface {
 
     @Override
     public boolean existById(Long id) {
-        return entityManager.getReference(NewsModel.class, id)!=null;
+        return entityManager.find(NewsModel.class, id)!=null;
+    }
+
+    @Override
+    public NewsModel partialUpdate(Long id, NewsModel entity) {
+        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().format(MY_FORMAT));
+        entity.setLastUpdateDate(dateTime);
+        entityManager.merge(entity);
+        return entity;
     }
 
     @Override

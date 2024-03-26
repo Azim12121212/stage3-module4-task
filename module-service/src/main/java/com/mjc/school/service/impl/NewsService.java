@@ -2,6 +2,7 @@ package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.AuthorRepositoryInterface;
 import com.mjc.school.repository.NewsRepositoryInterface;
+import com.mjc.school.repository.TagRepositoryInterface;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.CommentModel;
 import com.mjc.school.repository.model.NewsModel;
@@ -16,34 +17,39 @@ import com.mjc.school.service.mapper.AuthorMapper;
 import com.mjc.school.service.mapper.CommentMapper;
 import com.mjc.school.service.mapper.NewsMapper;
 import com.mjc.school.service.mapper.TagMapper;
+import com.mjc.school.service.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class NewsService implements NewsServiceInterface {
     private final NewsRepositoryInterface newsRepository;
     private final AuthorRepositoryInterface authorRepository;
+    private final TagRepositoryInterface tagRepository;
     private final NewsMapper mapper;
     private final AuthorMapper authorMapper;
     private final TagMapper tagMapper;
     private final CommentMapper commentMapper;
+    private final Validator validator;
 
     @Autowired
     public NewsService(NewsRepositoryInterface newsRepository,
                        AuthorRepositoryInterface authorRepository,
+                       TagRepositoryInterface tagRepository,
                        NewsMapper mapper, AuthorMapper authorMapper,
-                       TagMapper tagMapper, CommentMapper commentMapper) {
+                       TagMapper tagMapper, CommentMapper commentMapper,
+                       Validator validator) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
+        this.tagRepository = tagRepository;
         this.mapper = mapper;
         this.authorMapper = authorMapper;
         this.tagMapper = tagMapper;
         this.commentMapper = commentMapper;
+        this.validator = validator;
     }
 
     @Override
@@ -101,6 +107,47 @@ public class NewsService implements NewsServiceInterface {
             return newsRepository.deleteById(id);
         } else {
             return false;
+        }
+    }
+
+    @Transactional
+    @Override
+    public NewsDtoResponse partialUpdate(Long id, NewsDtoRequest newsDtoRequest) {
+        validator.validateNewsId(id);
+        Optional<NewsModel> existingNewsModel = newsRepository.readById(id);
+
+        if (existingNewsModel.isPresent()) {
+            if (newsDtoRequest.getTitle()!=null) {
+                validator.validateNewsTitle(newsDtoRequest.getTitle());
+                existingNewsModel.get().setTitle(newsDtoRequest.getTitle());
+            }
+            if (newsDtoRequest.getContent()!=null) {
+                validator.validateNewsContent(newsDtoRequest.getContent());
+                existingNewsModel.get().setContent(newsDtoRequest.getContent());
+            }
+            if (newsDtoRequest.getAuthorId()!=null) {
+                validator.validateAuthorId(newsDtoRequest.getAuthorId());
+                if (authorRepository.existById(newsDtoRequest.getAuthorId())) {
+                    existingNewsModel.get().setAuthorModel(authorMapper.authorIdToAuthorModel(newsDtoRequest.getAuthorId()));
+                } else {
+                    throw new NotFoundException(Errors.ERROR_AUTHOR_ID_NOT_EXIST.getErrorData(String.valueOf(newsDtoRequest.getAuthorId()), true));
+                }
+            }
+            if (newsDtoRequest.getTagIdList()!=null) {
+                for (Long tagId: newsDtoRequest.getTagIdList()) {
+                    validator.validateTagId(tagId);
+                    if (tagRepository.existById(tagId)) {
+                        TagModel tagModel = tagRepository.readById(tagId).get();
+                        existingNewsModel.get().getTagModelSet().add(tagModel);
+                    } else {
+                        throw new NotFoundException(Errors.ERROR_TAG_ID_NOT_EXIST.getErrorData(String.valueOf(tagId), true));
+                    }
+                }
+            }
+            NewsModel newsModel = newsRepository.partialUpdate(id, existingNewsModel.get());
+            return mapper.newsModelToNewsDto(newsModel);
+        } else {
+            throw new NotFoundException(Errors.ERROR_NEWS_ID_NOT_EXIST.getErrorData(String.valueOf(id), true));
         }
     }
 

@@ -47,7 +47,7 @@ public class Validator {
         }
     }
 
-    private void validateNewsTitle(String title) {
+    public void validateNewsTitle(String title) {
         if (title!=null) {
             if (title.length() < NEWS_TITLE_MIN || title.length() > NEWS_TITLE_MAX) {
                 throw new ValidatorException(Errors.ERROR_NEWS_TITLE_LENGTH.getErrorData(title, false));
@@ -55,7 +55,7 @@ public class Validator {
         }
     }
 
-    private void validateNewsContent(String content) {
+    public void validateNewsContent(String content) {
         if (content!=null) {
             if (content.length() < NEWS_CONTENT_MIN || content.length() > NEWS_CONTENT_MAX) {
                 throw new ValidatorException(Errors.ERROR_NEWS_CONTENT_LENGTH.getErrorData(content, false));
@@ -69,7 +69,7 @@ public class Validator {
         }
     }
 
-    private void validateAuthorName(String name) {
+    public void validateAuthorName(String name) {
         if (name!=null) {
             if (name.length() < AUTHOR_NAME_MIN || name.length() > AUTHOR_NAME_MAX) {
                 throw new ValidatorException(Errors.ERROR_AUTHOR_NAME_LENGTH.getErrorData(name, false));
@@ -83,7 +83,7 @@ public class Validator {
         }
     }
 
-    private void validateTagName(String name) {
+    public void validateTagName(String name) {
         if (name!=null) {
             if (name.length() < TAG_NAME_MIN || name.length() > TAG_NAME_MAX) {
                 throw new ValidatorException(Errors.ERROR_TAG_NAME_LENGTH.getErrorData(name, false));
@@ -97,7 +97,7 @@ public class Validator {
         }
     }
 
-    private void validateCommentContent(String commentContent) {
+    public void validateCommentContent(String commentContent) {
         if (commentContent!=null) {
             if (commentContent.length() < COMMENT_CONTENT_MIN || commentContent.length() > COMMENT_CONTENT_MAX) {
                 throw new ValidatorException(Errors.ERROR_COMMENT_CONTENT_LENGTH.getErrorData(commentContent, false));

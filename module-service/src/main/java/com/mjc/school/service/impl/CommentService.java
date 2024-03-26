@@ -12,26 +12,30 @@ import com.mjc.school.service.dto.CommentDtoResponse;
 import com.mjc.school.service.errorsexceptions.Errors;
 import com.mjc.school.service.errorsexceptions.NotFoundException;
 import com.mjc.school.service.mapper.CommentMapper;
+import com.mjc.school.service.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CommentService implements CommentServiceInterface {
     private final CommentRepositoryInterface commentRepository;
     private final NewsRepositoryInterface newsRepository;
     private final CommentMapper mapper;
+    private final Validator validator;
 
     @Autowired
     public CommentService(CommentRepositoryInterface commentRepository,
                           NewsRepositoryInterface newsRepository,
-                          CommentMapper mapper) {
+                          CommentMapper mapper, Validator validator) {
         this.commentRepository = commentRepository;
         this.newsRepository = newsRepository;
         this.mapper = mapper;
+        this.validator = validator;
     }
 
     @Override
@@ -91,6 +95,32 @@ public class CommentService implements CommentServiceInterface {
             return commentRepository.deleteById(id);
         } else {
             return false;
+        }
+    }
+
+    @Transactional
+    @Override
+    public CommentDtoResponse partialUpdate(Long id, CommentDtoRequest updateRequest) {
+        validator.validateCommentId(id);
+        Optional<CommentModel> existingCommentModel = commentRepository.readById(id);
+
+        if (existingCommentModel.isPresent()) {
+            if (updateRequest.getContent()!=null) {
+                validator.validateCommentContent(updateRequest.getContent());
+                existingCommentModel.get().setContent(updateRequest.getContent());
+            }
+            if (updateRequest.getNewsId()!=null) {
+                validator.validateNewsId(updateRequest.getNewsId());
+                if (newsRepository.existById(updateRequest.getNewsId())) {
+                    existingCommentModel.get().setNewsModel(mapper.newsIdToNewsModel(updateRequest.getNewsId()));
+                } else {
+                    throw new NotFoundException(Errors.ERROR_NEWS_ID_NOT_EXIST.getErrorData(String.valueOf(updateRequest.getNewsId()), true));
+                }
+            }
+            CommentModel commentModel = commentRepository.partialUpdate(id, existingCommentModel.get());
+            return mapper.commentModelToCommentDto(commentModel);
+        } else {
+            throw new NotFoundException(Errors.ERROR_COMMENT_ID_NOT_EXIST.getErrorData(String.valueOf(id), true));
         }
     }
 

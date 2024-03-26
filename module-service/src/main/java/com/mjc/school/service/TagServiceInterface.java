@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface TagServiceInterface extends BaseService<TagDtoRequest, TagDtoResponse, Long> {
 
+    TagDtoResponse partialUpdate(Long id, TagDtoRequest updateRequest);
+
     List<TagDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
     List<NewsDtoResponse> getNewsByTagId(Long id);

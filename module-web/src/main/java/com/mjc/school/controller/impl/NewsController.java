@@ -3,7 +3,6 @@ package com.mjc.school.controller.impl;
 import com.mjc.school.controller.NewsControllerInterface;
 import com.mjc.school.service.NewsServiceInterface;
 import com.mjc.school.service.dto.*;
-import com.mjc.school.service.errorsexceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +54,13 @@ public class NewsController implements NewsControllerInterface {
     @Override
     public boolean deleteById(@PathVariable Long id) {
         return newsService.deleteById(id);
+    }
+
+    @PatchMapping(value = "/partial-update/{id:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    @Override
+    public NewsDtoResponse partialUpdate(@PathVariable Long id, @RequestBody NewsDtoRequest newsDtoRequest) {
+        return newsService.partialUpdate(id, newsDtoRequest);
     }
 
     @GetMapping(value = "/pages")

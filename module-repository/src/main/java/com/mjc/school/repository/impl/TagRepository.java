@@ -56,7 +56,13 @@ public class TagRepository implements TagRepositoryInterface {
 
     @Override
     public boolean existById(Long id) {
-        return entityManager.getReference(TagModel.class, id)!=null;
+        return entityManager.find(TagModel.class, id)!=null;
+    }
+
+    @Override
+    public TagModel partialUpdate(Long id, TagModel entity) {
+        entityManager.merge(entity);
+        return entity;
     }
 
     @Override
