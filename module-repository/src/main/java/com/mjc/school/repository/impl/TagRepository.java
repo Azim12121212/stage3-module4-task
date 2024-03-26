@@ -20,7 +20,7 @@ public class TagRepository implements TagRepositoryInterface {
 
     @Override
     public List<TagModel> readAll() {
-        return entityManager.createQuery("SELECT t FROM TagModel t", TagModel.class).getResultList();
+        return entityManager.createQuery("SELECT t FROM TagModel t LEFT JOIN t.newsModelSet n", TagModel.class).getResultList();
     }
 
     @Override

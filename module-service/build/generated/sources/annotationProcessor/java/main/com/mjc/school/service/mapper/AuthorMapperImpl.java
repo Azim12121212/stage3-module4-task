@@ -12,51 +12,51 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-26T00:45:01+0600",
+    date = "2024-03-26T16:04:26+0600",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.2.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 @Component
 public class AuthorMapperImpl implements AuthorMapper {
 
     @Override
-    public AuthorModel authorDtoToAuthorModel(AuthorDtoRequest authorDto) {
-        if ( authorDto == null ) {
+    public AuthorModel authorDtoToAuthorModel(AuthorDtoRequest arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
         AuthorModel authorModel = new AuthorModel();
 
-        authorModel.setId( authorDto.getId() );
-        authorModel.setName( authorDto.getName() );
+        authorModel.setId( arg0.getId() );
+        authorModel.setName( arg0.getName() );
 
         return authorModel;
     }
 
     @Override
-    public AuthorDtoResponse authorModelToAuthorDto(AuthorModel authorModel) {
-        if ( authorModel == null ) {
+    public AuthorDtoResponse authorModelToAuthorDto(AuthorModel arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
         AuthorDtoResponse authorDtoResponse = new AuthorDtoResponse();
 
-        authorDtoResponse.setNewsDtoResponseList( newsModelListToNewsDtoResponseList( authorModel.getNewsModelList() ) );
-        authorDtoResponse.setId( authorModel.getId() );
-        authorDtoResponse.setName( authorModel.getName() );
-        authorDtoResponse.setCreateDate( authorModel.getCreateDate() );
-        authorDtoResponse.setLastUpdateDate( authorModel.getLastUpdateDate() );
+        authorDtoResponse.setNewsDtoResponseList( newsModelListToNewsDtoResponseList( arg0.getNewsModelList() ) );
+        authorDtoResponse.setId( arg0.getId() );
+        authorDtoResponse.setName( arg0.getName() );
+        authorDtoResponse.setCreateDate( arg0.getCreateDate() );
+        authorDtoResponse.setLastUpdateDate( arg0.getLastUpdateDate() );
 
         return authorDtoResponse;
     }
 
     @Override
-    public List<AuthorDtoResponse> authorModelListToAuthorDtoList(List<AuthorModel> authorModelList) {
-        if ( authorModelList == null ) {
+    public List<AuthorDtoResponse> authorModelListToAuthorDtoList(List<AuthorModel> arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
-        List<AuthorDtoResponse> list = new ArrayList<AuthorDtoResponse>( authorModelList.size() );
-        for ( AuthorModel authorModel : authorModelList ) {
+        List<AuthorDtoResponse> list = new ArrayList<AuthorDtoResponse>( arg0.size() );
+        for ( AuthorModel authorModel : arg0 ) {
             list.add( authorModelToAuthorDto( authorModel ) );
         }
 
