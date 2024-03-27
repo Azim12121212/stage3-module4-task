@@ -64,8 +64,8 @@ public class NewsRepository implements NewsRepositoryInterface {
     @Override
     public boolean deleteById(Long id) {
         if (existById(id)) {
-            NewsModel newsModel = entityManager.find(NewsModel.class, id);
-            entityManager.remove(newsModel);
+            entityManager.createQuery("DELETE FROM NewsModel n WHERE n.id = :id")
+                    .setParameter("id", id).executeUpdate();
             return true;
         }
         return false;
