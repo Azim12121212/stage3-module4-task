@@ -7,6 +7,7 @@ import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,70 +23,70 @@ public class TagController implements TagControllerInterface {
     }
 
     @GetMapping(value = "/getall")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<TagDtoResponse> readAll() {
-        return tagService.readAll();
+    public ResponseEntity<List<TagDtoResponse>> readAll() {
+        List<TagDtoResponse> tagDtoResponseList = tagService.readAll();
+        return new ResponseEntity<>(tagDtoResponseList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public TagDtoResponse readById(@PathVariable Long id) {
-        return tagService.readById(id);
+    public ResponseEntity<TagDtoResponse> readById(@PathVariable Long id) {
+        TagDtoResponse tagDtoResponse = tagService.readById(id);
+        return new ResponseEntity<>(tagDtoResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
-    @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public TagDtoResponse create(@RequestBody TagDtoRequest createRequest) {
-        return tagService.create(createRequest);
+    public ResponseEntity<TagDtoResponse> create(@RequestBody TagDtoRequest createRequest) {
+        TagDtoResponse tagDtoResponse = tagService.create(createRequest);
+        return new ResponseEntity<>(tagDtoResponse, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public TagDtoResponse update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+    public ResponseEntity<TagDtoResponse> update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
         updateRequest.setId(id);
-        return tagService.update(updateRequest);
+        TagDtoResponse tagDtoResponse = tagService.update(updateRequest);
+        return new ResponseEntity<>(tagDtoResponse, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public boolean deleteById(@PathVariable Long id) {
-        return tagService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        tagService.deleteById(id);
     }
 
     @PatchMapping(value = "/partial-update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public TagDtoResponse partialUpdate(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
-        return tagService.partialUpdate(id, updateRequest);
+    public ResponseEntity<TagDtoResponse> partialUpdate(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+        TagDtoResponse tagDtoResponse = tagService.partialUpdate(id, updateRequest);
+        return new ResponseEntity<>(tagDtoResponse, HttpStatus.OK);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<TagDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
+    public ResponseEntity<List<TagDtoResponse>> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                         @RequestParam(required = false, name = "sort", defaultValue = "name") String sortBy) {
-        return tagService.readAll(pageNum, pageSize, sortBy);
+        List<TagDtoResponse> tagDtoResponseList = tagService.readAll(pageNum, pageSize, sortBy);
+        return new ResponseEntity<>(tagDtoResponseList, HttpStatus.OK);
     }
 
     // Get News by tag id
     @GetMapping(value = "/byid/{id:\\d+}/news")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> getNewsByTagId(@PathVariable Long id) {
-        return tagService.getNewsByTagId(id);
+    public ResponseEntity<List<NewsDtoResponse>> getNewsByTagId(@PathVariable Long id) {
+        List<NewsDtoResponse> newsDtoResponseList = tagService.getNewsByTagId(id);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 
     // Get News by tag name
     @GetMapping(value = "/byname/{name}/news")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> getNewsByTagName(@PathVariable String name) {
-        return tagService.getNewsByTagName(name);
+    public ResponseEntity<List<NewsDtoResponse>> getNewsByTagName(@PathVariable String name) {
+        List<NewsDtoResponse> newsDtoResponseList = tagService.getNewsByTagName(name);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 }

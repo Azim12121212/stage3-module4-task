@@ -39,7 +39,9 @@ public class NewsModel implements BaseEntity<Long> {
     private AuthorModel authorModel;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     @JoinTable(name = "news_tag",
             joinColumns = @JoinColumn(name = "news_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))

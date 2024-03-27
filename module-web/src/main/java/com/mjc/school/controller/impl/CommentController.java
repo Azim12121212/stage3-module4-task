@@ -6,6 +6,7 @@ import com.mjc.school.service.dto.CommentDtoRequest;
 import com.mjc.school.service.dto.CommentDtoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,54 +22,54 @@ public class CommentController implements CommentControllerInterface {
     }
 
     @GetMapping(value = "/getall")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<CommentDtoResponse> readAll() {
-        return commentService.readAll();
+    public ResponseEntity<List<CommentDtoResponse>> readAll() {
+        List<CommentDtoResponse> commentDtoResponseList = commentService.readAll();
+        return new ResponseEntity<>(commentDtoResponseList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public CommentDtoResponse readById(@PathVariable Long id) {
-        return commentService.readById(id);
+    public ResponseEntity<CommentDtoResponse> readById(@PathVariable Long id) {
+        CommentDtoResponse commentDtoResponse = commentService.readById(id);
+        return new ResponseEntity<>(commentDtoResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
-    @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public CommentDtoResponse create(@RequestBody CommentDtoRequest createRequest) {
-        return commentService.create(createRequest);
+    public ResponseEntity<CommentDtoResponse> create(@RequestBody CommentDtoRequest createRequest) {
+        CommentDtoResponse commentDtoResponse = commentService.create(createRequest);
+        return new ResponseEntity<>(commentDtoResponse, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public CommentDtoResponse update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+    public ResponseEntity<CommentDtoResponse> update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
         updateRequest.setId(id);
-        return commentService.update(updateRequest);
+        CommentDtoResponse commentDtoResponse = commentService.update(updateRequest);
+        return new ResponseEntity<>(commentDtoResponse, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public boolean deleteById(@PathVariable Long id) {
-        return commentService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        commentService.deleteById(id);
     }
 
     @PatchMapping(value = "/partial-update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public CommentDtoResponse partialUpdate(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
-        return commentService.partialUpdate(id, updateRequest);
+    public ResponseEntity<CommentDtoResponse> partialUpdate(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+        CommentDtoResponse commentDtoResponse = commentService.partialUpdate(id, updateRequest);
+        return new ResponseEntity<>(commentDtoResponse, HttpStatus.OK);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<CommentDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
+    public ResponseEntity<List<CommentDtoResponse>> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                             @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                             @RequestParam(required = false, name = "sort", defaultValue = "id") String sortBy) {
-        return commentService.readAll(pageNum, pageSize, sortBy);
+        List<CommentDtoResponse> commentDtoResponseList = commentService.readAll(pageNum, pageSize, sortBy);
+        return new ResponseEntity<>(commentDtoResponseList, HttpStatus.OK);
     }
 }

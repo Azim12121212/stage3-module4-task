@@ -7,6 +7,7 @@ import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,62 +23,62 @@ public class AuthorController implements AuthorControllerInterface {
     }
 
     @GetMapping(value = "/getall")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<AuthorDtoResponse> readAll() {
-        return authorService.readAll();
+    public ResponseEntity<List<AuthorDtoResponse>> readAll() {
+        List<AuthorDtoResponse> authorDtoResponseList = authorService.readAll();
+        return new ResponseEntity<>(authorDtoResponseList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public AuthorDtoResponse readById(@PathVariable Long id) {
-        return authorService.readById(id);
+    public ResponseEntity<AuthorDtoResponse> readById(@PathVariable Long id) {
+        AuthorDtoResponse authorDtoResponse = authorService.readById(id);
+        return new ResponseEntity<>(authorDtoResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
-    @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public AuthorDtoResponse create(@RequestBody AuthorDtoRequest createRequest) {
-        return authorService.create(createRequest);
+    public ResponseEntity<AuthorDtoResponse> create(@RequestBody AuthorDtoRequest createRequest) {
+        AuthorDtoResponse authorDtoResponse = authorService.create(createRequest);
+        return new ResponseEntity<>(authorDtoResponse, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public AuthorDtoResponse update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
+    public ResponseEntity<AuthorDtoResponse> update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
         updateRequest.setId(id);
-        return authorService.update(updateRequest);
+        AuthorDtoResponse authorDtoResponse = authorService.update(updateRequest);
+        return new ResponseEntity<>(authorDtoResponse, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public boolean deleteById(@PathVariable Long id) {
-        return authorService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        authorService.deleteById(id);
     }
 
     @PatchMapping(value = "/partial-update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public AuthorDtoResponse partialUpdate(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
-        return authorService.partialUpdate(id, updateRequest);
+    public ResponseEntity<AuthorDtoResponse> partialUpdate(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
+        AuthorDtoResponse authorDtoResponse = authorService.partialUpdate(id, updateRequest);
+        return new ResponseEntity<>(authorDtoResponse, HttpStatus.OK);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<AuthorDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
+    public ResponseEntity<List<AuthorDtoResponse>> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                            @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                            @RequestParam(required = false, name = "sort", defaultValue = "name") String sortBy) {
-        return authorService.readAll(pageNum, pageSize, sortBy);
+        List<AuthorDtoResponse> authorDtoResponseList = authorService.readAll(pageNum, pageSize, sortBy);
+        return new ResponseEntity<>(authorDtoResponseList, HttpStatus.OK);
     }
 
     // Get News by author name
     @GetMapping(value = "/{name}/news")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> getNewsByAuthorName(@PathVariable String name) {
-        return authorService.getNewsByAuthorName(name);
+    public ResponseEntity<List<NewsDtoResponse>> getNewsByAuthorName(@PathVariable String name) {
+        List<NewsDtoResponse> newsDtoResponseList = authorService.getNewsByAuthorName(name);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 }

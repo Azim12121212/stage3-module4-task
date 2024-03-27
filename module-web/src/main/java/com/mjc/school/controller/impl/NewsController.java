@@ -5,6 +5,7 @@ import com.mjc.school.service.NewsServiceInterface;
 import com.mjc.school.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,94 +22,94 @@ public class NewsController implements NewsControllerInterface {
     }
 
     @GetMapping(value = "/getall")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> readAll() {
-        return newsService.readAll();
+    public ResponseEntity<List<NewsDtoResponse>> readAll() {
+        List<NewsDtoResponse> newsDtoResponseList = newsService.readAll();
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public NewsDtoResponse readById(@PathVariable Long id) {
-        return newsService.readById(id);
+    public ResponseEntity<NewsDtoResponse> readById(@PathVariable Long id) {
+        NewsDtoResponse newsDtoResponse = newsService.readById(id);
+        return new ResponseEntity<>(newsDtoResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
-    @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public NewsDtoResponse create(@RequestBody NewsDtoRequest createRequest) {
-        return newsService.create(createRequest);
+    public ResponseEntity<NewsDtoResponse> create(@RequestBody NewsDtoRequest createRequest) {
+        NewsDtoResponse newsDtoResponse = newsService.create(createRequest);
+        return new ResponseEntity<>(newsDtoResponse, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public NewsDtoResponse update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
+    public ResponseEntity<NewsDtoResponse> update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
         updateRequest.setId(id);
-        return newsService.update(updateRequest);
+        NewsDtoResponse newsDtoResponse = newsService.update(updateRequest);
+        return new ResponseEntity<>(newsDtoResponse, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public boolean deleteById(@PathVariable Long id) {
-        return newsService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        newsService.deleteById(id);
     }
 
     @PatchMapping(value = "/partial-update/{id:\\d+}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public NewsDtoResponse partialUpdate(@PathVariable Long id, @RequestBody NewsDtoRequest newsDtoRequest) {
-        return newsService.partialUpdate(id, newsDtoRequest);
+    public ResponseEntity<NewsDtoResponse> partialUpdate(@PathVariable Long id, @RequestBody NewsDtoRequest newsDtoRequest) {
+        NewsDtoResponse newsDtoResponse = newsService.partialUpdate(id, newsDtoRequest);
+        return new ResponseEntity<>(newsDtoResponse, HttpStatus.OK);
     }
 
     @GetMapping(value = "/pages")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
+    public ResponseEntity<List<NewsDtoResponse>> readAll(@RequestParam(required = false, name = "page", defaultValue = "1") Integer pageNum,
                                          @RequestParam(required = false, name = "size", defaultValue = "5") Integer pageSize,
                                          @RequestParam(required = false, name = "sort", defaultValue = "title") String sortBy) {
-        return newsService.readAll(pageNum, pageSize, sortBy);
+        List<NewsDtoResponse> newsDtoResponseList = newsService.readAll(pageNum, pageSize, sortBy);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 
     // Get Author by news id – return author by provided news id.
     @GetMapping(value = "/{id:\\d+}/author")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public AuthorDtoResponse getAuthorByNewsId(@PathVariable("id") Long newsId) {
-        return newsService.getAuthorByNewsId(newsId);
+    public ResponseEntity<AuthorDtoResponse> getAuthorByNewsId(@PathVariable("id") Long newsId) {
+        AuthorDtoResponse authorDtoResponse = newsService.getAuthorByNewsId(newsId);
+        return new ResponseEntity<>(authorDtoResponse, HttpStatus.OK);
     }
 
     // Get Tags by news id – return tags by provided news id.
     @GetMapping(value = "/{id:\\d+}/tags")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public Set<TagDtoResponse> getTagsByNewsId(@PathVariable("id") Long newsId) {
-        return newsService.getTagsByNewsId(newsId);
+    public ResponseEntity<Set<TagDtoResponse>> getTagsByNewsId(@PathVariable("id") Long newsId) {
+        Set<TagDtoResponse> tagDtoResponseSet = newsService.getTagsByNewsId(newsId);
+        return new ResponseEntity<>(tagDtoResponseSet, HttpStatus.OK);
     }
 
     // Get Comments by news id – return comments by provided news id.
     @GetMapping(value = "/{id:\\d+}/comments")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<CommentDtoResponse> getCommentsByNewsId(@PathVariable("id") Long newsId) {
-        return newsService.getCommentsByNewsId(newsId);
+    public ResponseEntity<List<CommentDtoResponse>> getCommentsByNewsId(@PathVariable("id") Long newsId) {
+        List<CommentDtoResponse> commentDtoResponseList = newsService.getCommentsByNewsId(newsId);
+        return new ResponseEntity<>(commentDtoResponseList, HttpStatus.OK);
     }
 
     // Get News by title
     @GetMapping(value = "/title/{title}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> getNewsByTitle(@PathVariable String title) {
-        return newsService.getNewsByTitle(title);
+    public ResponseEntity<List<NewsDtoResponse>> getNewsByTitle(@PathVariable String title) {
+        List<NewsDtoResponse> newsDtoResponseList = newsService.getNewsByTitle(title);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 
     // Get News by content
     @GetMapping(value = "/content/{content}")
-    @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<NewsDtoResponse> getNewsByContent(@PathVariable String content) {
-        return newsService.getNewsByContent(content);
+    public ResponseEntity<List<NewsDtoResponse>> getNewsByContent(@PathVariable String content) {
+        List<NewsDtoResponse> newsDtoResponseList = newsService.getNewsByContent(content);
+        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
     }
 }

@@ -1,24 +1,24 @@
 package com.mjc.school.controller;
 
 import com.mjc.school.service.dto.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public interface NewsControllerInterface extends BaseController<NewsDtoRequest, NewsDtoResponse, Long> {
 
-    NewsDtoResponse partialUpdate(Long id, NewsDtoRequest newsDtoRequest);
+    ResponseEntity<NewsDtoResponse> partialUpdate(Long id, NewsDtoRequest newsDtoRequest);
 
-    List<NewsDtoResponse> readAll(Integer pageNum, Integer pageSize, String sortBy);
+    ResponseEntity<List<NewsDtoResponse>> readAll(Integer pageNum, Integer pageSize, String sortBy);
 
-    AuthorDtoResponse getAuthorByNewsId(Long newsId);
+    ResponseEntity<AuthorDtoResponse> getAuthorByNewsId(Long newsId);
 
-    Set<TagDtoResponse> getTagsByNewsId(Long newsId);
+    ResponseEntity<Set<TagDtoResponse>> getTagsByNewsId(Long newsId);
 
-    List<CommentDtoResponse> getCommentsByNewsId(Long newsId);
+    ResponseEntity<List<CommentDtoResponse>> getCommentsByNewsId(Long newsId);
 
-    List<NewsDtoResponse> getNewsByTitle(String title);
+    ResponseEntity<List<NewsDtoResponse>> getNewsByTitle(String title);
 
-    List<NewsDtoResponse> getNewsByContent(String content);
+    ResponseEntity<List<NewsDtoResponse>> getNewsByContent(String content);
 }

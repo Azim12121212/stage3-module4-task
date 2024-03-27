@@ -20,7 +20,9 @@ public class TagModel implements BaseEntity<Long> {
     private String name;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "tagModelSet", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tagModelSet", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<NewsModel> newsModelSet = new HashSet<>();
 
     public TagModel(String name) {
