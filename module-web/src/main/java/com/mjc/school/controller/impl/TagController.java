@@ -22,12 +22,12 @@ public class TagController implements TagControllerInterface {
         this.tagService = tagService;
     }
 
-    @GetMapping(value = "/getall")
-    @Override
-    public ResponseEntity<List<TagDtoResponse>> readAll() {
-        List<TagDtoResponse> tagDtoResponseList = tagService.readAll();
-        return new ResponseEntity<>(tagDtoResponseList, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/getall")
+//    @Override
+//    public ResponseEntity<List<TagDtoResponse>> readAll() {
+//        List<TagDtoResponse> tagDtoResponseList = tagService.readAll();
+//        return new ResponseEntity<>(tagDtoResponseList, HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id:\\d+}")
     @Override
@@ -37,6 +37,7 @@ public class TagController implements TagControllerInterface {
     }
 
     @PostMapping(value = "/create")
+    @ResponseStatus(HttpStatus.CREATED)
     @Override
     public ResponseEntity<TagDtoResponse> create(@RequestBody TagDtoRequest createRequest) {
         TagDtoResponse tagDtoResponse = tagService.create(createRequest);

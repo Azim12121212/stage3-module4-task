@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BaseController<T, R, K> {
 
-    ResponseEntity<List<R>> readAll();
+    //ResponseEntity<List<R>> readAll();
 
     ResponseEntity<R> readById(K id);
 

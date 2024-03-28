@@ -22,12 +22,12 @@ public class AuthorController implements AuthorControllerInterface {
         this.authorService = authorService;
     }
 
-    @GetMapping(value = "/getall")
-    @Override
-    public ResponseEntity<List<AuthorDtoResponse>> readAll() {
-        List<AuthorDtoResponse> authorDtoResponseList = authorService.readAll();
-        return new ResponseEntity<>(authorDtoResponseList, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/getall")
+//    @Override
+//    public ResponseEntity<List<AuthorDtoResponse>> readAll() {
+//        List<AuthorDtoResponse> authorDtoResponseList = authorService.readAll();
+//        return new ResponseEntity<>(authorDtoResponseList, HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id:\\d+}")
     @Override
@@ -37,6 +37,7 @@ public class AuthorController implements AuthorControllerInterface {
     }
 
     @PostMapping(value = "/create")
+    @ResponseStatus(HttpStatus.CREATED)
     @Override
     public ResponseEntity<AuthorDtoResponse> create(@RequestBody AuthorDtoRequest createRequest) {
         AuthorDtoResponse authorDtoResponse = authorService.create(createRequest);

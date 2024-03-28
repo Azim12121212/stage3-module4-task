@@ -21,12 +21,12 @@ public class NewsController implements NewsControllerInterface {
         this.newsService = newsService;
     }
 
-    @GetMapping(value = "/getall")
-    @Override
-    public ResponseEntity<List<NewsDtoResponse>> readAll() {
-        List<NewsDtoResponse> newsDtoResponseList = newsService.readAll();
-        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/getall")
+//    @Override
+//    public ResponseEntity<List<NewsDtoResponse>> readAll() {
+//        List<NewsDtoResponse> newsDtoResponseList = newsService.readAll();
+//        return new ResponseEntity<>(newsDtoResponseList, HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id:\\d+}")
     @Override
@@ -36,6 +36,7 @@ public class NewsController implements NewsControllerInterface {
     }
 
     @PostMapping(value = "/create")
+    @ResponseStatus(HttpStatus.CREATED)
     @Override
     public ResponseEntity<NewsDtoResponse> create(@RequestBody NewsDtoRequest createRequest) {
         NewsDtoResponse newsDtoResponse = newsService.create(createRequest);

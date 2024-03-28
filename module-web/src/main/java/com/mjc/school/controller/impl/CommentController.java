@@ -21,12 +21,12 @@ public class CommentController implements CommentControllerInterface {
         this.commentService = commentService;
     }
 
-    @GetMapping(value = "/getall")
-    @Override
-    public ResponseEntity<List<CommentDtoResponse>> readAll() {
-        List<CommentDtoResponse> commentDtoResponseList = commentService.readAll();
-        return new ResponseEntity<>(commentDtoResponseList, HttpStatus.OK);
-    }
+//    @GetMapping(value = "/getall")
+//    @Override
+//    public ResponseEntity<List<CommentDtoResponse>> readAll() {
+//        List<CommentDtoResponse> commentDtoResponseList = commentService.readAll();
+//        return new ResponseEntity<>(commentDtoResponseList, HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id:\\d+}")
     @Override
@@ -36,6 +36,7 @@ public class CommentController implements CommentControllerInterface {
     }
 
     @PostMapping(value = "/create")
+    @ResponseStatus(HttpStatus.CREATED)
     @Override
     public ResponseEntity<CommentDtoResponse> create(@RequestBody CommentDtoRequest createRequest) {
         CommentDtoResponse commentDtoResponse = commentService.create(createRequest);
